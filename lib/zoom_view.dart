@@ -12,7 +12,7 @@ class ZoomView extends ZoomPlatform {
   /// The event channel used to interact with the native platform init function
   @override
   Future<List> initZoom(ZoomOptions options) async {
-    var optionMap = <String, String?>{};
+    final optionMap = <String, String?>{};
 
     if (options.jwtToken != null) {
       optionMap.putIfAbsent("jwtToken", () => options.jwtToken!);
@@ -36,18 +36,24 @@ class ZoomView extends ZoomPlatform {
   /// The event channel used to interact with the native platform startMeetingNormal function
   @override
   Future<List> startMeeting(ZoomMeetingOptions options) async {
-    var optionMap = <String, String?>{};
+    final optionMap = <String, String?>{};
     optionMap.putIfAbsent("zoomAccessToken", () => options.zoomAccessToken);
     optionMap.putIfAbsent("displayName", () => options.displayName);
     optionMap.putIfAbsent("meetingId", () => options.meetingId);
+    optionMap.putIfAbsent("meetingPassword", () => options.meetingPassword);
+    optionMap.putIfAbsent("enableVideoCallPicture", () => options.enableVideoCallPicture);
     optionMap.putIfAbsent("disableDialIn", () => options.disableDialIn);
     optionMap.putIfAbsent("disableMinimizeMeeting", () => options.disableMinimizeMeeting);
     optionMap.putIfAbsent("disableDrive", () => options.disableDrive);
-    optionMap.putIfAbsent("disableInvite", () => options.disableInvite);
-    optionMap.putIfAbsent("disableShare", () => options.disableShare);
+    optionMap.putIfAbsent("meetingPasswordHidden", () => options.meetingPasswordHidden);
+    optionMap.putIfAbsent("meetingInviteHidden", () => options.meetingInviteHidden);
+    optionMap.putIfAbsent("meetingInviteUrlHidden", () => options.meetingInviteUrlHidden);
+    optionMap.putIfAbsent("meetingShareHidden", () => options.meetingShareHidden);
+    optionMap.putIfAbsent("recordButtonHidden", () => options.recordButtonHidden);
+    optionMap.putIfAbsent("disableCopyMeetingUrl", () => options.disableCopyMeetingUrl);
     optionMap.putIfAbsent("disableTitlebar", () => options.disableTitlebar);
-    optionMap.putIfAbsent("noDisconnectAudio", () => options.noDisconnectAudio);
-    optionMap.putIfAbsent("noAudio", () => options.noAudio);
+    optionMap.putIfAbsent("autoConnectInternetAudio", () => options.autoConnectInternetAudio);
+    optionMap.putIfAbsent("muteAudioWhenJoinMeeting", () => options.muteAudioWhenJoinMeeting);
     optionMap.putIfAbsent("viewOptions", () => options.viewOptions);
 
     return await channel
@@ -58,20 +64,25 @@ class ZoomView extends ZoomPlatform {
   /// The event channel used to interact with the native platform joinMeeting function
   @override
   Future<bool> joinMeeting(ZoomMeetingOptions options) async {
-    var optionMap = <String, String?>{};
+    final optionMap = <String, String?>{};
     optionMap.putIfAbsent("zoomAccessToken", () => options.zoomAccessToken);
     optionMap.putIfAbsent("displayName", () => options.displayName);
     optionMap.putIfAbsent("meetingId", () => options.meetingId);
     optionMap.putIfAbsent("meetingPassword", () => options.meetingPassword);
+    optionMap.putIfAbsent("enableVideoCallPicture", () => options.enableVideoCallPicture);
     optionMap.putIfAbsent("disableDialIn", () => options.disableDialIn);
     optionMap.putIfAbsent("disableMinimizeMeeting", () => options.disableMinimizeMeeting);
     optionMap.putIfAbsent("disableDrive", () => options.disableDrive);
-    optionMap.putIfAbsent("disableInvite", () => options.disableInvite);
-    optionMap.putIfAbsent("disableShare", () => options.disableShare);
+    optionMap.putIfAbsent("meetingPasswordHidden", () => options.meetingPasswordHidden);
+    optionMap.putIfAbsent("meetingInviteHidden", () => options.meetingInviteHidden);
+    optionMap.putIfAbsent("meetingInviteUrlHidden", () => options.meetingInviteUrlHidden);
+    optionMap.putIfAbsent("meetingShareHidden", () => options.meetingShareHidden);
+    optionMap.putIfAbsent("recordButtonHidden", () => options.recordButtonHidden);
+    optionMap.putIfAbsent("disableCopyMeetingUrl", () => options.disableCopyMeetingUrl);
     optionMap.putIfAbsent("disableTitlebar", () => options.disableTitlebar);
-    optionMap.putIfAbsent("noDisconnectAudio", () => options.noDisconnectAudio);
+    optionMap.putIfAbsent("autoConnectInternetAudio", () => options.autoConnectInternetAudio);
+    optionMap.putIfAbsent("muteAudioWhenJoinMeeting", () => options.muteAudioWhenJoinMeeting);
     optionMap.putIfAbsent("viewOptions", () => options.viewOptions);
-    optionMap.putIfAbsent("noAudio", () => options.noAudio);
 
     return await channel
         .invokeMethod<bool>('join', optionMap)
@@ -91,7 +102,7 @@ class ZoomView extends ZoomPlatform {
   /// The event channel used to interact with the native platform meetingStatus function
   @override
   Future<List> meetingStatus(String meetingId) async {
-    var optionMap = <String, String>{};
+    final optionMap = <String, String>{};
     optionMap.putIfAbsent("meetingId", () => meetingId);
 
     return await channel

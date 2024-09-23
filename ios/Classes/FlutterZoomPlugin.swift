@@ -126,7 +126,7 @@ public class FlutterZoomPluginService: NSObject, FlutterPlugin, FlutterStreamHan
         //Join Meeting with passed Meeting ID and Passcode
         public func joinMeeting(call: FlutterMethodCall, result: FlutterResult) {
 
-           print(" ----- start join meeting ios")
+            print(" ----- start join meeting ios")
             let meetingService = MobileRTC.shared().getMeetingService()
             let meetingSettings = MobileRTC.shared().getMeetingSettings()
 
@@ -134,13 +134,21 @@ public class FlutterZoomPluginService: NSObject, FlutterPlugin, FlutterStreamHan
                 let arguments = call.arguments as! Dictionary<String, String?>
                 self.arguments = arguments;
 
+                meetingSettings?.enableVideoCallPicture(inPicture: parseBoolean(data: arguments["enableVideoCallPicture"]!, defaultValue: false))
+                meetingSettings?.meetingPasswordHidden = parseBoolean(data: arguments["meetingPasswordHidden"]!, defaultValue: false)
+                meetingSettings?.meetingInviteHidden = parseBoolean(data: arguments["meetingInviteHidden"]!, defaultValue: false)
+                meetingSettings?.meetingInviteUrlHidden = parseBoolean(data: arguments["meetingInviteUrlHidden"]!, defaultValue: false)
+                meetingSettings?.meetingShareHidden = parseBoolean(data: arguments["meetingShareHidden"]!, defaultValue: false)
+                meetingSettings?.recordButtonHidden = parseBoolean(data: arguments["recordButtonHidden"]!, defaultValue: false)
+                meetingSettings?.disableCopyMeetingUrl(parseBoolean(data: arguments["disableCopyMeetingUrl"]!, defaultValue: false))
+
                 //Setting up meeting settings for zoom sdk
                 meetingSettings?.disableMinimizeMeeting(parseBoolean(data: arguments["disableMinimizeMeeting"]!, defaultValue: false))
                 meetingSettings?.disableDriveMode(parseBoolean(data: arguments["disableDrive"]!, defaultValue: false))
                 meetingSettings?.disableCall(in: parseBoolean(data: arguments["disableDialIn"]!, defaultValue: false))
-                meetingSettings?.setAutoConnectInternetAudio(parseBoolean(data: arguments["noDisconnectAudio"]!, defaultValue: false))
-                meetingSettings?.setMuteAudioWhenJoinMeeting(parseBoolean(data: arguments["noAudio"]!, defaultValue: false))
-                meetingSettings?.meetingShareHidden = parseBoolean(data: arguments["disableShare"]!, defaultValue: false)
+                meetingSettings?.setAutoConnectInternetAudio(parseBoolean(data: arguments["autoConnectInternetAudio"]!, defaultValue: false))
+                meetingSettings?.setMuteAudioWhenJoinMeeting(parseBoolean(data: arguments["muteAudioWhenJoinMeeting"]!, defaultValue: false))
+                meetingSettings?.meetingShareHidden = parseBoolean(data: arguments["meetingShareHidden"]!, defaultValue: false)
                 meetingSettings?.meetingInviteHidden = parseBoolean(data: arguments["disableDrive"]!, defaultValue: false)
                 meetingSettings?.meetingTitleHidden = parseBoolean(data:arguments["disableTitlebar"]!, defaultValue: false)
 
@@ -158,7 +166,7 @@ public class FlutterZoomPluginService: NSObject, FlutterPlugin, FlutterStreamHan
 
                 joinMeetingParameters.password = arguments["meetingPassword"]!!
                 joinMeetingParameters.userName = arguments["displayName"]!!
-                joinMeetingParameters.zak = arguments["zoomAccessToken"]!!
+                // joinMeetingParameters.zak = arguments["zoomAccessToken"]!!
 
                 //Joining the meeting and storing the response
                 let response = meetingService?.joinMeeting(with: joinMeetingParameters)
@@ -185,13 +193,21 @@ public class FlutterZoomPluginService: NSObject, FlutterPlugin, FlutterStreamHan
            //     if ((authService?.isLoggedIn()) == true) {
                     let arguments = call.arguments as! Dictionary<String, String?>
 
+                    meetingSettings?.enableVideoCallPicture(inPicture: parseBoolean(data: arguments["enableVideoCallPicture"]!, defaultValue: false))
+                    meetingSettings?.meetingPasswordHidden = parseBoolean(data: arguments["meetingPasswordHidden"]!, defaultValue: false)
+                    meetingSettings?.meetingInviteHidden = parseBoolean(data: arguments["meetingInviteHidden"]!, defaultValue: false)
+                    meetingSettings?.meetingInviteUrlHidden = parseBoolean(data: arguments["meetingInviteUrlHidden"]!, defaultValue: false)
+                    meetingSettings?.meetingShareHidden = parseBoolean(data: arguments["meetingShareHidden"]!, defaultValue: false)
+                    meetingSettings?.recordButtonHidden = parseBoolean(data: arguments["recordButtonHidden"]!, defaultValue: false)
+                    meetingSettings?.disableCopyMeetingUrl(parseBoolean(data: arguments["disableCopyMeetingUrl"]!, defaultValue: false))
+
                     //Setting up meeting settings for zoom sdk
                     meetingSettings?.disableMinimizeMeeting(parseBoolean(data: arguments["disableMinimizeMeeting"]!, defaultValue: false))
                     meetingSettings?.disableDriveMode(parseBoolean(data: arguments["disableDrive"]!, defaultValue: false))
                     meetingSettings?.disableCall(in: parseBoolean(data: arguments["disableDialIn"]!, defaultValue: false))
-                    meetingSettings?.setAutoConnectInternetAudio(parseBoolean(data: arguments["noDisconnectAudio"]!, defaultValue: false))
-                    meetingSettings?.setMuteAudioWhenJoinMeeting(parseBoolean(data: arguments["noAudio"]!, defaultValue: false))
-                    meetingSettings?.meetingShareHidden = parseBoolean(data: arguments["disableShare"]!, defaultValue: false)
+                    meetingSettings?.setAutoConnectInternetAudio(parseBoolean(data: arguments["autoConnectInternetAudio"]!, defaultValue: false))
+                    meetingSettings?.setMuteAudioWhenJoinMeeting(parseBoolean(data: arguments["muteAudioWhenJoinMeeting"]!, defaultValue: false))
+                    meetingSettings?.meetingShareHidden = parseBoolean(data: arguments["meetingShareHidden"]!, defaultValue: false)
                     meetingSettings?.meetingInviteHidden = parseBoolean(data: arguments["disableDrive"]!, defaultValue: false)
                     let viewopts = parseBoolean(data:arguments["viewOptions"]!, defaultValue: false)
                     if viewopts {

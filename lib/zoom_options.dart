@@ -12,7 +12,7 @@ class ZoomOptions {
   bool? showMeetingHeader;
 
   /// --Meeting Header for web
-  bool? disableInvite;
+  bool? meetingInviteHidden;
 
   /// --Disable Invite Option for web
   bool? disableCallOut;
@@ -93,7 +93,7 @@ class ZoomOptions {
       this.jwtToken,
       this.language = "en-US",
       this.showMeetingHeader = true,
-      this.disableInvite = false,
+      this.meetingInviteHidden = true,
       this.disableCallOut = false,
       this.disableRecord = false,
       this.disableJoinAudio = false,
@@ -150,6 +150,9 @@ class ZoomMeetingOptions {
   /// Personal meeting id for start meeting required
   String? meetingPassword;
 
+  /// PiP
+  String? enableVideoCallPicture;
+
   /// Personal meeting passcode for start meeting required
   String? disableDialIn;
   
@@ -160,22 +163,34 @@ class ZoomMeetingOptions {
   String? disableDrive;
 
   /// Disable Drive In Mode
-  String? disableInvite;
+  String? meetingInviteHidden;
 
-  /// Disable Invite Mode
-  String? disableShare;
+  /// Prevent Invite Mode
+  String? meetingPasswordHidden;
+
+  /// Prevent Invite Mode
+  String? meetingInviteUrlHidden;
+
+  /// Prevent Invite Mode
+  String? recordButtonHidden;
+
+  /// Prevent Invite Mode
+  String? meetingShareHidden;
+
+  /// Prevent Invite Mode
+  String? disableCopyMeetingUrl;
 
   /// Disable Share Mode
   String? disableTitlebar;
 
   /// Disable Title Bar Mode
-  String? noDisconnectAudio;
+  String? autoConnectInternetAudio;
 
   /// No Disconnect Audio Mode
   String? viewOptions;
 
   /// View option to disable zoom icon for Learning system
-  String? noAudio;
+  String? muteAudioWhenJoinMeeting;
 
   /// Disable No Audio
   String? zoomToken;
@@ -198,15 +213,20 @@ class ZoomMeetingOptions {
     this.displayName,
     this.meetingId,
     this.meetingPassword,
+    this.enableVideoCallPicture,
     this.disableDialIn,
     this.disableMinimizeMeeting,
     this.disableDrive,
-    this.disableInvite,
-    this.disableShare,
+    this.disableCopyMeetingUrl,
+    this.meetingInviteHidden,
+    this.meetingPasswordHidden,
+    this.meetingInviteUrlHidden,
+    this.recordButtonHidden,
+    this.meetingShareHidden,
     this.disableTitlebar,
-    this.noDisconnectAudio,
+    this.autoConnectInternetAudio,
     this.viewOptions,
-    this.noAudio,
+    this.muteAudioWhenJoinMeeting,
     this.zoomToken,
     this.zoomAccessToken,
     this.jwtAPIKey,

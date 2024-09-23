@@ -154,9 +154,9 @@ public class FlutterZoomPlugin implements FlutterPlugin, MethodChannel.MethodCal
     //Set custom Notification fro android
     final CustomizedNotificationData data = new CustomizedNotificationData();
     data.setContentTitleId(R.string.app_name_zoom_local);
-    data.setLargeIconId(R.drawable.zm_mm_type_emoji);
-    data.setSmallIconId(R.drawable.zm_mm_type_emoji);
-    data.setSmallIconForLorLaterId(R.drawable.zm_mm_type_emoji);
+    // data.setLargeIconId(R.drawable.zm_mm_type_emoji);
+    // data.setSmallIconId(R.drawable.zm_mm_type_emoji);
+    // data.setSmallIconForLorLaterId(R.drawable.zm_mm_type_emoji);
 
     ZoomSDKInitializeListener listener = new ZoomSDKInitializeListener() {
       /**
@@ -209,14 +209,14 @@ public class FlutterZoomPlugin implements FlutterPlugin, MethodChannel.MethodCal
 
     JoinMeetingOptions opts = new JoinMeetingOptions();
 
-
-    opts.no_invite = parseBoolean(options, "disableInvite");
-    opts.no_share = parseBoolean(options, "disableShare");
+    opts.no_invite = parseBoolean(options, "meetingInviteHidden");
+    opts.no_share = parseBoolean(options, "meetingShareHidden");
+    opts.no_record = parseBoolean(options, "recordButtonHidden");
     opts.no_titlebar = parseBoolean(options, "disableTitlebar");
     opts.no_driving_mode = parseBoolean(options, "disableDrive");
     opts.no_dial_in_via_phone = parseBoolean(options, "disableDialIn");
-    opts.no_disconnect_audio = parseBoolean(options, "noDisconnectAudio");
-    opts.no_audio = parseBoolean(options, "noAudio");
+    opts.no_disconnect_audio = parseBoolean(options, "autoConnectInternetAudio");
+    opts.no_audio = parseBoolean(options, "muteAudioWhenJoinMeeting");
     opts.meeting_views_options = parseInt(options, "meetingViewOptions", 0);
     boolean view_options = parseBoolean(options, "viewOptions");
     if (view_options) {
@@ -229,7 +229,7 @@ public class FlutterZoomPlugin implements FlutterPlugin, MethodChannel.MethodCal
     params.displayName = options.get("displayName");
     params.meetingNo = options.get("meetingId");
     params.password = options.get("meetingPassword");
-    params.zoomAccessToken = options.get("zoomAccessToken");
+    // params.zoomAccessToken = options.get("zoomAccessToken");
 
     //params.
     meetingService.joinMeetingWithParams(context, params, opts);
@@ -281,12 +281,12 @@ public class FlutterZoomPlugin implements FlutterPlugin, MethodChannel.MethodCal
 
 
     StartMeetingOptions opts = new StartMeetingOptions();
-    opts.no_invite = parseBoolean(options, "disableInvite");
-    opts.no_share = parseBoolean(options, "disableShare");
+    opts.no_invite = parseBoolean(options, "meetingInviteHidden");
+    opts.no_share = parseBoolean(options, "meetingShareHidden");
     opts.no_driving_mode = parseBoolean(options, "disableDrive");
     opts.no_dial_in_via_phone = parseBoolean(options, "disableDialIn");
-    opts.no_disconnect_audio = parseBoolean(options, "noDisconnectAudio");
-    opts.no_audio = parseBoolean(options, "noAudio");
+    opts.no_disconnect_audio = parseBoolean(options, "autoConnectInternetAudio");
+    opts.no_audio = parseBoolean(options, "muteAudioWhenJoinMeeting");
     opts.no_titlebar = parseBoolean(options, "disableTitlebar");
     boolean view_options = parseBoolean(options, "viewOptions");
     if (view_options) {
