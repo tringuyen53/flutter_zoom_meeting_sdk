@@ -134,7 +134,7 @@ class ZoomOptions {
 /// Basic Zoom Meeting Options required for plugin (WEB, iOS, Android)
 class ZoomMeetingOptions {
   String? userEmail;
-  
+
   /// User email For Join Meeting & Host Email For Start Meeting
   String? userId;
 
@@ -155,7 +155,7 @@ class ZoomMeetingOptions {
 
   /// Personal meeting passcode for start meeting required
   String? disableDialIn;
-  
+
   /// Disable Dial In Mode
   String? disableMinimizeMeeting;
 
@@ -206,6 +206,8 @@ class ZoomMeetingOptions {
 
   /// JWT API Signature For Web Only
 
+  String? enableMinimizeMeeting;
+
   ZoomMeetingOptions({
     this.userEmail,
     this.userId,
@@ -231,6 +233,7 @@ class ZoomMeetingOptions {
     this.zoomAccessToken,
     this.jwtAPIKey,
     this.jwtSignature,
+    this.enableMinimizeMeeting,
   });
 }
 

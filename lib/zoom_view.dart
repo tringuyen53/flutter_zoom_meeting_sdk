@@ -55,6 +55,7 @@ class ZoomView extends ZoomPlatform {
     optionMap.putIfAbsent("autoConnectInternetAudio", () => options.autoConnectInternetAudio);
     optionMap.putIfAbsent("muteAudioWhenJoinMeeting", () => options.muteAudioWhenJoinMeeting);
     optionMap.putIfAbsent("viewOptions", () => options.viewOptions);
+    optionMap.putIfAbsent("enableMinimizeMeeting", () => options.enableMinimizeMeeting);
 
     return await channel
         .invokeMethod<List>('startMeeting', optionMap)
@@ -83,6 +84,7 @@ class ZoomView extends ZoomPlatform {
     optionMap.putIfAbsent("autoConnectInternetAudio", () => options.autoConnectInternetAudio);
     optionMap.putIfAbsent("muteAudioWhenJoinMeeting", () => options.muteAudioWhenJoinMeeting);
     optionMap.putIfAbsent("viewOptions", () => options.viewOptions);
+    optionMap.putIfAbsent("enableMinimizeMeeting", () => options.enableMinimizeMeeting);
 
     return await channel
         .invokeMethod<bool>('join', optionMap)
