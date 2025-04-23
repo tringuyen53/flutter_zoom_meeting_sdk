@@ -168,6 +168,8 @@ public class FlutterZoomPluginService: NSObject, FlutterPlugin, FlutterStreamHan
                 joinMeetingParameters.userName = arguments["displayName"]!!
                 // joinMeetingParameters.zak = arguments["zoomAccessToken"]!!
 
+                MobileRTC.shared().getMeetingSettingsHelper().setAutoConnectVoIPWhenJoinMeeting(true);
+
                 //Joining the meeting and storing the response
                 let response = meetingService?.joinMeeting(with: joinMeetingParameters)
 

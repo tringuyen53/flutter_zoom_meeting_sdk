@@ -231,6 +231,8 @@ public class FlutterZoomPlugin implements FlutterPlugin, MethodChannel.MethodCal
     params.password = options.get("meetingPassword");
     // params.zoomAccessToken = options.get("zoomAccessToken");
 
+    zoomSDK.getMeetingSettingsHelper().setAutoConnectVoIPWhenJoinMeeting(true);
+
     //params.
     meetingService.joinMeetingWithParams(context, params, opts);
     result.success(true);
