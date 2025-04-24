@@ -231,7 +231,7 @@ public class FlutterZoomPlugin implements FlutterPlugin, MethodChannel.MethodCal
     params.password = options.get("meetingPassword");
     // params.zoomAccessToken = options.get("zoomAccessToken");
 
-    zoomSDK.getZoomUIService().enableMinimizeMeeting(parseBoolean(options, "enableMinimizeMeeting"););
+    zoomSDK.getZoomUIService().enableMinimizeMeeting(parseBoolean(options, "enableMinimizeMeeting"));
 
     //params.
     meetingService.joinMeetingWithParams(context, params, opts);
