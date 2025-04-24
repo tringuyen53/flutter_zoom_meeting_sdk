@@ -103,9 +103,9 @@ class ZoomView extends ZoomPlatform {
 
   /// The event channel used to interact with the native platform meetingStatus function
   @override
-  Future<List> meetingStatus(String meetingId) async {
+  Future<List> meetingStatus() async {
     final optionMap = <String, String>{};
-    optionMap.putIfAbsent("meetingId", () => meetingId);
+    // optionMap.putIfAbsent("meetingId", () => meetingId);
 
     return await channel
         .invokeMethod<List>('meeting_status', optionMap)

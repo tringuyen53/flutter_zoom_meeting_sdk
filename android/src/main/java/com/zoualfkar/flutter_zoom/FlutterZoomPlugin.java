@@ -100,6 +100,9 @@ public class FlutterZoomPlugin implements FlutterPlugin, MethodChannel.MethodCal
       case "unInitialize":
         unInitialize(methodCall, result);
         break;
+      case "return":
+        returnToMeeting(methodCall, result);
+        break;
       default:
         result.notImplemented();
     }
@@ -366,6 +369,24 @@ public class FlutterZoomPlugin implements FlutterPlugin, MethodChannel.MethodCal
     result.success(status != null ? Arrays.asList(status.name(), "") : Arrays.asList("MEETING_STATUS_UNKNOWN", "No status available"));
   }
 
+  private void returnToMeeting(final MethodCall methodCall, final Result result) {
+    ZoomSDK zoomSDK = ZoomSDK.getInstance();
+    
+    if (!zoomSDK.isInitialized()) {
+      System.out.println("Not initialized!!!!!!");
+      result.success(false);
+      return;
+    }
+    
+    MeetingService meetingService = zoomSDK.getMeetingService();
+    
+    if (meetingService != null) {
+      meetingService.returnToMeeting(context);
+      result.success(true);
+    } else {
+      result.success(false);
+    }
+  }
 
   @Override
   public void onDetachedFromActivityForConfigChanges() {

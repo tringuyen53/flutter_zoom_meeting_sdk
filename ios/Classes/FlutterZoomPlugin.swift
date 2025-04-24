@@ -33,6 +33,9 @@ public class FlutterZoomPluginService: NSObject, FlutterPlugin, FlutterStreamHan
               self.meetingStatus(call: call, result: result)
           case "meeting_details":
               self.meetingDetails(call: call, result: result)
+          case "return":
+              self.returnToMeeting(call: call, result: result)
+
           default:
               result(FlutterMethodNotImplemented)
           }
@@ -51,6 +54,8 @@ public class FlutterZoomPluginService: NSObject, FlutterPlugin, FlutterStreamHan
               self.meetingStatus(call: call, result: result)
           case "meeting_details":
               self.meetingDetails(call: call, result: result)
+          case "return":
+              self.returnToMeeting(call: call, result: result)
           default:
               result(FlutterMethodNotImplemented)
           }
@@ -284,6 +289,17 @@ public class FlutterZoomPluginService: NSObject, FlutterPlugin, FlutterStreamHan
                 }
             } else {
                 result(["SDK ERROR", "001"])
+            }
+        }
+
+        public func returnToMeeting(call: FlutterMethodCall, result: @escaping FlutterResult) {
+            let meetingService = MobileRTC.shared().getMeetingService()
+            
+            if meetingService != nil {
+                meetingService?.showMobileRTCMeeting()
+                    result(true)
+            } else {
+                result(false)
             }
         }
 
