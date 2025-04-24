@@ -36,7 +36,7 @@ abstract class ZoomPlatform extends PlatformInterface {
   }
 
   /// Flutter Zoom SDK Get Meeting Status function
-  Future<List> meetingStatus(String meetingId) async {
+  Future<List> meetingStatus() async {
     throw UnimplementedError('meetingStatus() has not been implemented.');
   }
 
