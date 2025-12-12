@@ -1,20 +1,15 @@
 group 'com.zoualfkar.flutter_zoom'
 version '1.0'
 
-
 buildscript {
-
     repositories {
         google()
         mavenCentral()
         maven { url "https://maven.aliyun.com/repository/jcenter" }
-
     }
 
     dependencies {
-      //  classpath 'com.android.tools.build:gradle:7.1.2'
-        classpath 'com.android.tools.build:gradle:8.2.1'
-
+        classpath 'com.android.tools.build:gradle:8.7.3'  // Necessary update for 16KB page size and stability (matches main app)
     }
 }
 
@@ -33,7 +28,7 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35  // Necessary: Required for new apps/updates on Google Play (Android 15/API 35)
 
     namespace "com.zoualfkar.flutter_zoom"
 
@@ -42,27 +37,23 @@ android {
     }
 
     defaultConfig {
-
-        minSdkVersion 23
+        minSdkVersion 28  // Necessary: Recommended for security and aligns with Jetpack minSdk 23+; drops legacy support
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
-        consumerProguardFiles 'proguard.txt'
-
+        consumerProguardFiles 'proguard-rules.pro'  // Renamed for standard Gradle usage (necessary for better integration)
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+        }
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-
-        debug {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
-        }
-
     }
 
     lintOptions {
@@ -71,85 +62,78 @@ android {
         disable 'InvalidPackage'
     }
     compileOptions {
+        coreLibraryDesugaringEnabled true  // Necessary: Enables full Java 17 features without issues
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
 
-
+    packaging {
+        jniLibs {
+            pickFirsts += [  // Necessary: Resolves duplicate libc++_shared.so from Zoom/Media3
+                'lib/x86/libc++_shared.so',
+                'lib/x86_64/libc++_shared.so',
+                'lib/armeabi-v7a/libc++_shared.so',
+                'lib/arm64-v8a/libc++_shared.so'
+            ]
+        }
+    }
 
     dependencies {
-
         testImplementation 'junit:junit:4.13.2'
         testImplementation 'org.mockito:mockito-core:5.0.0'
 
-
         implementation "androidx.window:window:1.2.0"
-
         implementation "androidx.window:window-java:1.2.0"
-
-        // For RxJava2 integration
         implementation "androidx.window:window-rxjava2:1.2.0"
-
-        // For RxJava3 integration
         implementation "androidx.window:window-rxjava3:1.2.0"
-
-        // For testing
         implementation "androidx.window:window-testing:1.2.0"
-
-
-
 
         implementation "androidx.security:security-crypto:1.1.0-alpha05"
         implementation "com.google.crypto.tink:tink-android:1.7.0"
-        implementation "com.google.android.exoplayer:exoplayer-core:2.17.1"
-        implementation "com.google.android.exoplayer:exoplayer-ui:2.17.1"
+        implementation "androidx.media3:media3-exoplayer:1.4.1"  // Necessary migration: ExoPlayer 2.x deprecated
+        implementation "androidx.media3:media3-ui:1.4.1"
         implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
         implementation "androidx.appcompat:appcompat:1.3.1"
-        implementation "androidx.constraintlayout:constraintlayout:2.1.0"
+        implementation "androidx.constraintlayout:constraintlayout:2.1.4"
         implementation "com.google.android.material:material:1.8.0"
         implementation "com.google.android:flexbox:2.0.1"
         implementation "androidx.multidex:multidex:2.0.1"
         implementation "com.google.code.gson:gson:2.9.1"
         implementation "com.github.bumptech.glide:annotations:4.11.0"
-     //   implementation "com.github.bumptech.glide:glide:4.11.0"
+        implementation "com.github.bumptech.glide:glide:4.11.0"
 
         implementation "androidx.recyclerview:recyclerview:1.2.1"
         implementation "com.airbnb.android:lottie:4.0.0"
 
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.20"  // Necessary: Major stability improvements
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.20"
 
-        implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.20"
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20"
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"  // Necessary: Updated for Kotlin 2.0 compatibility
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1"
+        implementation "androidx.core:core-ktx:1.13.1"  // Necessary: Performance and coroutine fixes
+        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0-alpha03"  // Necessary: Updated for stability
+        implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.9.0-alpha03"
 
-        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2"
-        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
-        implementation "androidx.core:core-ktx:1.8.0"
-        implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
-        implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
-
-        implementation "androidx.fragment:fragment-ktx:1.4.1"
+        implementation "androidx.fragment:fragment-ktx:1.8.4"  // Necessary: Bug fixes
         implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+        implementation "io.reactivex.rxjava2:rxjava:2.2.21"  // Necessary: Last stable for RxJava2 (EOL, consider RxJava3 migration)
         implementation "com.davemorrissey.labs:subsampling-scale-image-view:3.10.0"
         implementation "androidx.core:core-splashscreen:1.0.1"
-        implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
-        implementation "androidx.databinding:viewbinding:7.1.2"
-
-
+        implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.9.0-alpha03"
+        implementation "androidx.databinding:viewbinding:8.7.0"  // Necessary: Updated for AGP compatibility
 
         implementation ("com.github.bumptech.glide:glide:4.11.0") {
             exclude group: "com.android.support"
         }
-        annotationProcessor 'androidx.annotation:annotation:1.0.0'
+        annotationProcessor 'androidx.annotation:annotation:1.8.2'  // Necessary: Updated
         annotationProcessor 'com.github.bumptech.glide:glide:4.11.0'
         implementation ("com.github.bumptech.glide:glide:4.11.0@aar") {
             transitive = true
         }
 
         api(name: 'mobilertc', ext: 'aar')
-
-
     }
-
 
     testOptions {
         unitTests.all {

@@ -5,4 +5,10 @@
 -keep class  us.google.protobuf.**{*;}
 -keep class  com.google.crypto.tink.**{*;}
 -keep class  androidx.security.crypto.**{*;}
--keep class  org.greenrobot.eventbus.**{*;}
+-keep class org.greenrobot.eventbus.**{*;}
+-keep class com.zoualfkar.flutter_zoom.FlutterZoomPlugin { *; }
+-keepclassmembers class com.zoualfkar.flutter_zoom.FlutterZoomPlugin { *; }
+
+# Necessary addition for Media3 (ExoPlayer migration)
+-keep class androidx.media3.** { *; }
+-dontwarn androidx.media3.exoplayer.**
