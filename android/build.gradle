@@ -42,6 +42,11 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'proguard-rules.pro'  // Renamed for standard Gradle usage (necessary for better integration)
+
+        // Align with app: ship arm64 only to reduce size
+        ndk {
+            abiFilters = ["arm64-v8a", "x86_64"]
+        }
     }
 
     buildTypes {
@@ -69,11 +74,12 @@ android {
 
     packaging {
         jniLibs {
-            pickFirsts += [  // Necessary: Resolves duplicate libc++_shared.so from Zoom/Media3
-                'lib/x86/libc++_shared.so',
-                'lib/x86_64/libc++_shared.so',
-                'lib/armeabi-v7a/libc++_shared.so',
+            pickFirsts += [
                 'lib/arm64-v8a/libc++_shared.so'
+            ]
+            // Drop armeabi-v7a to match app (arm64-only) and avoid duplicates
+            excludes += [
+                "lib/armeabi-v7a/**"
             ]
         }
     }
