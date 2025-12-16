@@ -43,10 +43,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'proguard-rules.pro'  // Renamed for standard Gradle usage (necessary for better integration)
 
-        // Align with app: ship arm64 only to reduce size
-        ndk {
-            abiFilters = ["arm64-v8a", "x86_64"]
-        }
+        // // Align with app: ship arm64 only to reduce size
+        // ndk {
+        //     abiFilters = ["armeabi-v7a", "arm64-v8a", "x86_64"]
+        // }
     }
 
     buildTypes {
@@ -55,7 +55,7 @@ android {
             shrinkResources false
         }
         release {
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -75,12 +75,13 @@ android {
     packaging {
         jniLibs {
             pickFirsts += [
+                'lib/armeabi-v7a/libc++_shared.so',
                 'lib/arm64-v8a/libc++_shared.so'
             ]
-            // Drop armeabi-v7a to match app (arm64-only) and avoid duplicates
-            excludes += [
-                "lib/armeabi-v7a/**"
-            ]
+            // Old config - excluded armeabi-v7a (now commented to support 32-bit devices)
+            // excludes += [
+            //     "lib/armeabi-v7a/**"
+            // ]
         }
     }
 
